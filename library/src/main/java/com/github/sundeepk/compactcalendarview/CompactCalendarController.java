@@ -78,6 +78,7 @@ class CompactCalendarController {
     private boolean shouldDrawIndicatorsBelowSelectedDays = false;
     private boolean displayOtherMonthDays = false;
     private boolean shouldSelectFirstDayOfMonthOnScroll = true;
+    private boolean shouldShowSelectedDay = true;
 
     private CompactCalendarViewListener listener;
     private VelocityTracker velocityTracker = null;
@@ -238,6 +239,10 @@ class CompactCalendarController {
 
     void setShouldSelectFirstDayOfMonthOnScroll(boolean shouldSelectFirstDayOfMonthOnScroll){
         this.shouldSelectFirstDayOfMonthOnScroll = shouldSelectFirstDayOfMonthOnScroll;
+    }
+
+    void setShouldShowSelectedDay(boolean shouldShowSelectedDay) {
+        this.shouldShowSelectedDay = shouldShowSelectedDay;
     }
 
     void setDisplayOtherMonthDays(boolean displayOtherMonthDays) {
@@ -774,7 +779,7 @@ class CompactCalendarController {
                         yPosition += indicatorOffset;
                         // offset event indicators to draw below selected day indicators
                         // this makes sure that they do no overlap
-                        if (shouldDrawIndicatorsBelowSelectedDays && (isSameDayAsCurrentDay || isCurrentSelectedDay)) {
+                        if (shouldDrawIndicatorsBelowSelectedDays && (isSameDayAsCurrentDay || isCurrentSelectedDay || !shouldShowSelectedDay)) {
                             yPosition += indicatorOffset;
                         }
 
@@ -879,7 +884,8 @@ class CompactCalendarController {
             } else {
                 int day = ((dayRow - 1) * 7 + dayColumn + 1) - firstDayOfMonth;
                 int defaultCalenderTextColorToUse = calenderTextColor;
-                if (currentCalender.get(Calendar.DAY_OF_MONTH) == day && isSameMonthAsCurrentCalendar && !isAnimatingWithExpose) {
+
+                if (currentCalender.get(Calendar.DAY_OF_MONTH) == day && isSameMonthAsCurrentCalendar && !isAnimatingWithExpose && shouldShowSelectedDay) {
                     drawDayCircleIndicator(currentSelectedDayIndicatorStyle, canvas, xPosition, yPosition, currentSelectedDayBackgroundColor);
                     defaultCalenderTextColorToUse = currentSelectedDayTextColor;
                 } else if (isSameYearAsToday && isSameMonthAsToday && todayDayOfMonth == day && !isAnimatingWithExpose) {

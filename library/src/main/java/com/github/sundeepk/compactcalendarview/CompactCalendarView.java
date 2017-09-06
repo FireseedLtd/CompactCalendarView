@@ -186,6 +186,10 @@ public class CompactCalendarView extends View {
         compactCalendarController.setCurrentDayTextColor(currentDayTextColor);
     }
 
+    public void setShouldShowSelectedDay(boolean shouldShowSelectedDay) {
+        compactCalendarController.setShouldShowSelectedDay(shouldShowSelectedDay);
+    }
+
     /**
      * see {@link #addEvent(Event, boolean)} when adding single events
      * or {@link #addEvents(java.util.List)}  when adding multiple events
